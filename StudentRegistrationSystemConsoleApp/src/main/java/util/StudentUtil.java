@@ -24,7 +24,7 @@ public class StudentUtil {
         }
         for (int i = 0; i < Config.students.length; i++) {
             Student st = Config.students[i];
-            System.out.println(st.getName() + " " + st.getSurname() + " " + st.getAge() + " " + st.getClassName() + ".");
+            System.out.println(st.getFullInfo() + ".");
         }
     }
 
@@ -39,5 +39,34 @@ public class StudentUtil {
 
             System.out.println("\n======================");
         }
+    }
+
+    public static void findStudentsAndPrint() {
+        String txt = InputUtil.requireText("Type name, surname or classname");
+        Student[] foundedStudents = findStudents(txt);
+        for (int i = 0; i < foundedStudents.length; i++) {
+            System.out.println(foundedStudents[i].getFullInfo());
+        }
+    }
+    
+    public static Student[] findStudents(String txt){
+        int count = 0;
+        for (int i = 0; i < Config.students.length; i++) {
+            Student st = Config.students[i];
+            if (st.getName().contains(txt) || st.getSurname().contains(txt) || st.getClassName().contains(txt)) {
+                count++;
+            }
+        }
+        
+        Student[] res = new Student[count];
+        int fount = 0;
+        for (int i = 0; i < Config.students.length; i++) {
+            Student st = Config.students[i];
+            if (st.getName().contains(txt) || st.getSurname().contains(txt) || st.getClassName().contains(txt)) {
+                res[fount++] = st;
+            }
+        }
+        
+        return res;
     }
 }
