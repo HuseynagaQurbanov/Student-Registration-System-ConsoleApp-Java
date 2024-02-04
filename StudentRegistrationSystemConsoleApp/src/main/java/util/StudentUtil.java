@@ -6,12 +6,13 @@ import main.Main.Config;
 public class StudentUtil {
 
     public static Student fillStudent() {
+        int id = InputUtil.requireNumber("Enter id");
         String name = InputUtil.requireText("Enter name");
         String surname = InputUtil.requireText("Enter surname");
         byte age = InputUtil.requireNumber("Enter age");
         String className = InputUtil.requireText("Enter class");
 
-        Student st = new Student(name, surname, age, className);
+        Student st = new Student(name, surname, age, className, id);
 
         System.out.println("\n" + name + " added");
 
@@ -48,8 +49,8 @@ public class StudentUtil {
             System.out.println(foundedStudents[i].getFullInfo());
         }
     }
-    
-    public static Student[] findStudents(String txt){
+
+    public static Student[] findStudents(String txt) {
         int count = 0;
         for (int i = 0; i < Config.students.length; i++) {
             Student st = Config.students[i];
@@ -57,7 +58,7 @@ public class StudentUtil {
                 count++;
             }
         }
-        
+
         Student[] res = new Student[count];
         int fount = 0;
         for (int i = 0; i < Config.students.length; i++) {
@@ -66,7 +67,29 @@ public class StudentUtil {
                 res[fount++] = st;
             }
         }
-        
+
         return res;
+    }
+
+    public static void updateStudent(int id) {
+        boolean haveStudent = false;
+        
+        for (int i = 0; i < Config.students.length; i++) {
+            if (Config.students[i].getId() == id) {
+                Student st = Config.students[i];
+                Student newSt = fillStudent();
+                
+                st.setId(newSt.getId());
+                st.setAge(newSt.getAge());
+                st.setName(newSt.getName());
+                st.setSurname(newSt.getSurname());
+                st.setClassName(newSt.getClassName());
+                haveStudent = true;
+            }
+        }
+        
+        if (haveStudent == false) {
+            System.out.println("No one has this id: " + id);
+        }
     }
 }
